@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+  <title>Share Flex Message</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f0f0f5;
+    }
+
+    /* ตกแต่งปุ่ม */
+    button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 5px auto; /* ลด margin-top ให้ใกล้รูปภาพมากขึ้น */
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px; /* ทำให้มุมปุ่มโค้งมน */
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* เพิ่มเงาให้ปุ่ม */
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเมื่อ hover */
+    }
+
+    button:active {
+      background-color: #3e8e41;
+      transform: translateY(3px); /* ทำให้ปุ่มกดลงเล็กน้อยเมื่อกด */
+    }
+
+    /* ตกแต่งรูปภาพ */
+    img {
+      width: 100%; /* ปรับให้รูปภาพเต็มหน้าจอมือถือ */
+      max-width: 400px; /* กำหนดขนาดสูงสุด */
+      height: auto;
+      border-radius: 10px; /* ทำให้ขอบรูปโค้งมน */
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+      margin-bottom: 5px; /* ลด margin-bottom ให้ใกล้กับปุ่มแชร์มากขึ้น */
+      transition: transform 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.05); /* ขยายรูปภาพเล็กน้อยเมื่อ hover */
+      box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเมื่อ hover */
+    }
+  </style>
+</head>
+<body>
+  <!-- รูปภาพที่ปรับแต่งให้พอดีกับมือถือ -->
+  <img src="https://img2.pic.in.th/pic/5000e5e00553ec8acf.jpg" alt="Share Flex Message via LINE">
+
+  <!-- ปุ่ม Share -->
+  <button id="btnShare" onclick="sendShare()">Share รับเครดิตฟรี</button>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    async function sendShare() {
+      try {
+        const result = await liff.shareTargetPicker([
+          {
+            "type": "flex",
+            "altText": "This is a Flex Message",
+            "contents": {
+              "type": "bubble",
+              "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Hello, this is a Flex Message!",
+                    "size": "xl",
+                    "weight": "bold",
+                    "color": "#000000"
+                  },
+                  {
+                    "type": "text",
+                    "text": "Shared using the Share Target Picker.",
+                    "size": "sm",
+                    "color": "#555555"
+                  },
+                  {
+                    "type": "button",
+                    "style": "primary",
+                    "action": {
+                      "type": "uri",
+                      "label": "Learn More",
+                      "uri": "https://example.com"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]);
+
+        if (result) {
+          alert('Message sent successfully!');
+        } else {
+          alert('User canceled the sharing.');
+        }
+      } catch (error) {
+        console.error('Error sharing the message:', error);
+        alert('An error occurred while sharing.');
+      }
+    }
+
+    async function main() {
+      try {
+        await liff.init({ liffId: "2006424335-4zXgkvPx" }); // แทนที่ด้วย LIFF ID ของคุณ
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        }
+      } catch (error) {
+        console.error('LIFF initialization failed', error);
+      }
+    }
+    main();
+  </script>
+</body>
+</html>
+
